@@ -4,23 +4,13 @@ namespace App\Entity;
 
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
-#use App\Repository\UserRepository;
-
-/**
- * User
- *
- * @ORM\Table(name="user")
- * @ORM\Entity(repositoryClass=App\Repository\UserRepository::class)
- */
+use App\Repository\UserRepository;
+#[ORM\Entity(repositoryClass: UserRepository::class)]
 class User
 {
-    /**
-     * @var int
-     *
-     * @ORM\Column(name="idUser", type="integer", nullable=false)
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="IDENTITY")
-     */
+    #[ORM\Id]
+    #[ORM\GeneratedValue]
+    #[ORM\Column(type: "integer")]
     private $iduser;
 
     /**

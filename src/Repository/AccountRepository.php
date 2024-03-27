@@ -3,8 +3,10 @@
 namespace App\Repository;
 
 use App\Entity\Account;
+use App\Entity\Wallet;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
+use Doctrine\ORM\Query\Expr\Join;
 
 /**
  * @extends ServiceEntityRepository<Account>
@@ -20,6 +22,17 @@ class AccountRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, Account::class);
     }
+
+    public function findAccountsByWalletId(int $idWallet): array
+    {
+        return $this->createQueryBuilder('a')
+        ->where('a.idwallet = :idWallet')
+        ->setParameter('idWallet', $idWallet)
+        ->getQuery()
+        ->getResult();
+    }
+
+
 
 //    /**
 //     * @return Account[] Returns an array of Account objects

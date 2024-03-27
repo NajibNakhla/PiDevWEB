@@ -26,9 +26,15 @@ class Account
     #[ORM\Column(type: "string", length: 30)]
     private $description;
 
-    #[ORM\ManyToOne(targetEntity: Wallet::class)]
-    #[ORM\JoinColumn(name: "idWallet", referencedColumnName: "idWallet")]
+   // #[ORM\ManyToOne(targetEntity: Wallet::class)]
+   // #[ORM\JoinColumn(name: "idWallet", referencedColumnName: "idWallet")]
+   // #[ORM\Column(type: "integer")]
+   // private $idwallet;
+
+   #[ORM\ManyToOne(targetEntity: Wallet::class)]
+    #[ORM\JoinColumn(name: "idWallet", referencedColumnName: "idwallet")]
     private $idwallet;
+
 
     public function getIdaccount(): ?int
     {
@@ -83,17 +89,36 @@ class Account
         return $this;
     }
 
-    public function getIdwallet(): ?int
+   public function getIdwallet(): ?Wallet
     {
-        return $this->idwallet;
-    }
+         return $this->idwallet;
+     }
 
-    public function setIdwallet(?Wallet $idwallet): static
-    {
-        $this->idwallet = $idwallet;
+     public function setIdwallet(?Wallet $wallet): static
+     {
+         $this->idwallet = $wallet;
 
         return $this;
+     }
+     public function getCurrencySymbol(): string
+     {
+         return $this->getIdWallet()->getCurrencySymbol();
+     }
+     public function getIcon(): string
+{
+    switch ($this->typeaccount) {
+        case 'CHECKING':
+            return 'fi fi-rr-bank';
+        case 'SAVINGS':
+            return 'fi fi-br-piggy-bank';
+        case 'CREDIT_CARD':
+            return 'fi fi-rr-credit-card';
+        case 'CASH':
+            return 'fi fi-rr-money-bill-wave-alt';
+        default:
+            return 'fi fi-rr-question';
     }
+}
 
 
 }

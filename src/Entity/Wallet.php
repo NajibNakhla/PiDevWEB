@@ -23,8 +23,8 @@ class Wallet
     private $totalbalance;
 
     #[ORM\ManyToOne(targetEntity: User::class)]
-    #[ORM\JoinColumn(name: "idUser", referencedColumnName: "id")]
-    private $iduser;
+    #[ORM\JoinColumn(name: "idUser", referencedColumnName: "iduser")]
+    private ?User $iduser;
 
     public function getIdwallet(): ?int
     {
@@ -67,16 +67,30 @@ class Wallet
         return $this;
     }
 
-    public function getIduser(): ?int
+    public function getIduser(): ?User
     {
         return $this->iduser;
     }
 
-    public function setIduser(?int $iduser): static
+    public function setIduser(?User $iduser): static
     {
         $this->iduser = $iduser;
 
         return $this;
+    }
+
+    public function getCurrencySymbol(): string
+    {
+        switch ($this->currency) {
+            case 'USD':
+                return '$';
+            case 'EUR':
+                return '€';
+            case 'TND':
+                return 'TND';
+            default:
+                return ''; // Default to empty string if currency symbol not found
+        }
     }
 
 

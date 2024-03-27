@@ -22,8 +22,26 @@ class WalletRepository extends ServiceEntityRepository
     }
 
 
+    public function getIdWalletByUserID($idUser)
+    {
+        return $this->createQueryBuilder('w')
+            ->select('w.idwallet')
+            ->andWhere('w.iduser = :idUser')
+            ->setParameter('idUser', $idUser)
+            ->getQuery()
+            ->getSingleScalarResult();
+    }
 
-    public function addWallet(string $name, string $currency, float $totalBalance, int $idUser): Wallet
+    public function getWalletByUserId(int $userId): ?Wallet
+    {
+        return $this->createQueryBuilder('w')
+            ->andWhere('w.iduser = :userId')
+            ->setParameter('userId', $userId)
+            ->getQuery()
+            ->getOneOrNullResult();
+    }
+
+ /* public function addWallet(string $name, string $currency, float $totalBalance, int $idUser): Wallet
     {
         $wallet = new Wallet();
         $wallet->setName($name);
@@ -38,9 +56,11 @@ class WalletRepository extends ServiceEntityRepository
         return $wallet;
     }
 
-
+*/
+   
 
 //    /**
+
 //     * @return Wallet[] Returns an array of Wallet objects
 //     */
 //    public function findByExampleField($value): array
