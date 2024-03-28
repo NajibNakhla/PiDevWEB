@@ -154,7 +154,7 @@
 												<span>
 													<i class="fi fi-rr-wallet"></i>
 												</span>
-												Wallets
+												Accounts
 											</a>
 											<a class="dropdown-item" href="settings.html">
 												<span>
@@ -183,7 +183,7 @@
 				<div class="menu">
 					<ul>
 						<li><a href="index.html"><span><i class="fi fi-rr-dashboard"></i></span><span class="nav-text">Home</span></a></li>
-						<li><a href="wallets.html"><span><i class="fi fi-rr-wallet"></i></span><span class="nav-text">Wallets</span></a></li>
+						<li><a href="wallets.html"><span><i class="fi fi-rr-wallet"></i></span><span class="nav-text">Accounts</span></a></li>
 						<li><a href="budgets.html"><span><i class="fi fi-rr-donate"></i></span><span class="nav-text">Budgets</span></a></li>
 						<li><a href="goals.html"><span><i class="fi fi-sr-bullseye-arrow"></i></span><span class="nav-text">Goals</span></a></li>
 						<li><a href="profile.html"><span><i class="fi fi-rr-user"></i></span><span class="nav-text">Profile</span></a></li>
@@ -202,8 +202,8 @@
 								<div class="row align-items-center justify-content-between">
 									<div class="col-xl-4">
 										<div class="page-title-content">
-											<h3>Wallets</h3>
-											<p class="mb-2">Welcome Ekash Finance Management</p>
+											<h3>Accounts</h3>
+											<p class="mb-2">Welcome to PennyWise for Finance Management</p>
 										</div>
 									</div>
 									<div class="col-auto">
@@ -226,7 +226,7 @@
 								<div class="nav d-block">
 									{% for account in accounts %}
 										<div class="col-xl-12 col-md-6">
-											<div class="wallet-nav" data-bs-toggle="pill" data-bs-target="#{{ account.idAccount }}">
+											<div class="wallet-nav" data-bs-toggle="pill" data-bs-target="#{{ account.idaccount }}" onclick="selectAccount({{ account.idaccount }}, '{{ account.nameaccount }}')">
 												<div class="wallet-nav-icon">
 													<span>
 														<span>
@@ -235,8 +235,8 @@
 													</span>
 												</div>
 												<div class="wallet-nav-text">
-													<h3>{{ account.nameAccount }}</h3>
-													<p>
+													<h3>{{ account.nameaccount }}</h3>
+													<p class="text-success">
 														{{ account.idwallet.getCurrencySymbol() }}{{ account.balance }}</p>
 												</div>
 											</div>
@@ -253,16 +253,16 @@
 							<div class="col-xl-9">
 								<div class="tab-content wallet-tab-content">
 									<div class="tab-pane show active" id="a1">
-										<div class="wallet-tab-title">
-											<h3>City Bank</h3>
+										<div class="wallet-tab-title" id="accountName">
+											<h3>{{ defaultBankName }}</h3>
 										</div>
 										<div class="row">
 											<div class="col-xxl-6 col-xl-6 col-lg-6">
 												<div class="card">
 													<div class="card-body">
 														<div class="wallet-total-balance">
-															<p class="mb-0">Total Balance</p>
-															<h2>$221,478</h2>
+															<p class="mb-0">Total Balance of Wallet</p>
+															<h2>{{ accounts[0].idwallet.getCurrencySymbol() }}{{ accounts[0].idwallet.totalbalance }}</h2>
 														</div>
 														<div class="funds-credit">
 															<p class="mb-0">Personal Funds</p>
@@ -327,7 +327,7 @@
 											</div>
 											<div class="col-xl-6 col-lg-6 col-md-6 col-sm-6">
 												<div class="stat-widget-1">
-													<h6>Total Balance</h6>
+													<h6 id="bankNamePlaceholder">{{defaultBankName}}</h6>
 													<h3>$ 432568</h3>
 													<p>
 														<span class="text-success">
@@ -1203,4 +1203,6 @@
 	<script src="{{ asset('js/plugins/chartjs-line-balance-overtime.js')}}"></script>
 
 	<script src="{{ asset('js/scripts.js')}}"></script>
+	<script src="{{ asset('js/walletScripts.js')}}"></script>
+
 {% endblock %}</body>{% endblock %}

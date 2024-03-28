@@ -25,7 +25,7 @@ class AccountsController extends AbstractController
         $idWallet = $walletRepository->getIdWalletByUserID($userid);
 
         
-
+        $defaultBankName = 'Account name';
 
         // Fetch the accounts associated with the retrieved idWallet
         $accounts = $accountRepository->findAccountsByWalletId($idWallet);
@@ -33,6 +33,9 @@ class AccountsController extends AbstractController
         return $this->render('accounts/index.html.twig', [
             'controller_name' => 'AccountsController',
             'accounts' => $accounts,
+            'wallet' => $idWallet,
+            'defaultBankName' => $defaultBankName,
+
         ]);
     }
 
@@ -57,11 +60,19 @@ class AccountsController extends AbstractController
     
             $this->addFlash('success', 'Account added successfully!');
     
-            return $this->redirectToRoute('app_accounts');
+            return $this->redirectToRoute('account_added_success');
         }
     
         return $this->render('accounts/add-account.html.twig', [
             'form' => $form->createView(),
         ]);
     }
+
+
+    #[Route('/accounts/added-success', name: 'account_added_success')]
+    public function accountAddedSuccess(): Response
+    {
+        return $this->render('accounts/account-added-succ.html.twig');
+    }
+
 }
