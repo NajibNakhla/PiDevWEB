@@ -25,7 +25,7 @@ class AccountsController extends AbstractController
         $idWallet = $walletRepository->getIdWalletByUserID($userid);
 
         
-        $defaultBankName = 'Account name';
+        $defaultBankName = '';
 
         // Fetch the accounts associated with the retrieved idWallet
         $accounts = $accountRepository->findAccountsByWalletId($idWallet);
@@ -54,6 +54,12 @@ class AccountsController extends AbstractController
         $form->handleRequest($request);
     
         if ($form->isSubmitted() && $form->isValid()) {
+            $newAccountBalance = $account->getBalance();
+            $currentTotalBalance = $wallet->getTotalBalance();
+            $newTotalBalance = $currentTotalBalance + $newAccountBalance;
+            $wallet->setTotalBalance($newTotalBalance);
+
+
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($account);
             $entityManager->flush();
@@ -73,6 +79,17 @@ class AccountsController extends AbstractController
     public function accountAddedSuccess(): Response
     {
         return $this->render('accounts/account-added-succ.html.twig');
+    }
+
+
+    #[Route('/accounts/manage', name: 'account_manager')]
+    public function manage(): Response
+    {
+        // Add your logic here to fetch and manage accounts
+        
+        return $this->render('accounts/account-manager.html.twig', [
+            // Pass any necessary data to the template
+        ]);
     }
 
 }
