@@ -28,20 +28,20 @@ class Transaction
     private $amount;
 
     #[ORM\ManyToOne(targetEntity: Subcategory::class)]
-    #[ORM\JoinColumn(name: "idCategory", referencedColumnName: "idSubCategory")]
-    private $idcategory;
+    #[ORM\JoinColumn(name: "idCategory", referencedColumnName: "idsubcategory")]
+    private ?SubCategory $idcategory;
 
     #[ORM\ManyToOne(targetEntity: Account::class)]
-    #[ORM\JoinColumn(name: "fromAccount", referencedColumnName: "idAccount")]
-    private $fromaccount;
+    #[ORM\JoinColumn(name: "fromAccount", referencedColumnName: "idaccount")]
+    private ?Account $fromaccount;
 
     #[ORM\ManyToOne(targetEntity: Payee::class)]
-    #[ORM\JoinColumn(name: "idPayee", referencedColumnName: "idPayee")]
-    private $idpayee;
+    #[ORM\JoinColumn(name: "idPayee", referencedColumnName: "idpayee")]
+    private ?Payee $idpayee;
 
     #[ORM\ManyToOne(targetEntity: Account::class)]
-    #[ORM\JoinColumn(name: "toAccount", referencedColumnName: "idAccount")]
-    private $toaccount;
+    #[ORM\JoinColumn(name: "toAccount", referencedColumnName: "idaccount")]
+    private ?Account $toaccount;
 
     public function getIdtransaction(): ?int
     {
@@ -96,7 +96,7 @@ class Transaction
         return $this;
     }
 
-    public function getIdcategory(): ?int
+    public function getIdcategory(): ?SubCategory
     {
         return $this->idcategory;
     }
@@ -108,19 +108,19 @@ class Transaction
         return $this;
     }
 
-    public function getFromaccount(): ?int
+    public function getFromaccount(): ?Account
     {
         return $this->fromaccount;
     }
 
-    public function setFromaccount(?int $fromaccount): static
+    public function setFromaccount(?Account $fromaccount): static
     {
         $this->fromaccount = $fromaccount;
 
         return $this;
     }
 
-    public function getIdpayee(): ?int
+    public function getIdpayee(): ?Payee
     {
         return $this->idpayee;
     }
@@ -132,7 +132,7 @@ class Transaction
         return $this;
     }
 
-    public function getToaccount(): ?int
+    public function getToaccount(): ?Account
     {
         return $this->toaccount;
     }

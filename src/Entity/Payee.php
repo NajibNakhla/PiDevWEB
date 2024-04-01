@@ -2,32 +2,28 @@
 
 namespace App\Entity;
 
+use App\Repository\PayeeRepository;
 use Doctrine\ORM\Mapping as ORM;
 #use App\Repository\PayeeRepository;
 
-/**
- * Payee
- *
- * @ORM\Table(name="payee")
- * @ORM\Entity(repositoryClass=App\Repository\PayeeRepository::class)
- */
+#[ORM\Entity(repositoryClass: PayeeRepository::class)]
 class Payee
 {
-    /**
-     * @var int
-     *
-     * @ORM\Column(name="idPayee", type="integer", nullable=false)
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="IDENTITY")
-     */
+    #[ORM\Id]
+    #[ORM\GeneratedValue]
+    #[ORM\Column(type: "integer")]
     private $idpayee;
 
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="namePayee", type="string", length=20, nullable=false)
-     */
+    #[ORM\Column(type: "string", length: 20)]
     private $namepayee;
+    
+    #[ORM\ManyToOne(targetEntity: Wallet::class)]
+    #[ORM\JoinColumn(name: "idWallet", referencedColumnName: "idwallet")]
+    private ?Wallet $idwallet;
+
+
+  
+ 
 
     public function getIdpayee(): ?int
     {
@@ -46,5 +42,16 @@ class Payee
         return $this;
     }
 
+    public function getIdwallet(): ?Wallet
+    {
+         return $this->idwallet;
+     }
+
+     public function setIdwallet(?Wallet $wallet): static
+     {
+         $this->idwallet = $wallet;
+
+        return $this;
+     }
 
 }

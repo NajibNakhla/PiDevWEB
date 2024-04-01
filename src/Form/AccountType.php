@@ -13,6 +13,7 @@ use Symfony\Component\Form\Extension\Core\Type\NumberType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Validator\Constraints\GreaterThan;
 use Symfony\Component\Validator\Constraints\Positive;
+use Symfony\Component\Validator\Constraints\NotBlank;
 
 
 
@@ -21,7 +22,13 @@ class AccountType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-        ->add('nameAccount', TextType::class)
+        ->add('nameAccount', TextType::class ,[
+            'constraints' => [
+                new NotBlank([
+                    'message' => 'Name is required.',
+                ]),
+            ],
+        ])
         ->add('typeAccount', ChoiceType::class, [
             'choices' => [
                 'Checking' => 'CHECKING',
@@ -34,14 +41,22 @@ class AccountType extends AbstractType
             'constraints' => [
                 new GreaterThan([
                     'value' => 0,
-                    'message' => 'Balance must be greater than zero.',
-                ]),
-                new Positive([
                     'message' => 'Balance must be a positive number.',
+                ]),
+                 
+                new NotBlank([
+                    'message' => 'balance is required.',
+                ]),
+
+            ],
+        ])
+        ->add('description', TextareaType::class,[
+            'constraints' => [
+                new NotBlank([
+                    'message' => 'Description is required.',
                 ]),
             ],
         ])
-        ->add('description', TextareaType::class)
         ;
     }
 

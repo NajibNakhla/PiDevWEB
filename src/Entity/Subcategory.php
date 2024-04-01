@@ -2,31 +2,19 @@
 
 namespace App\Entity;
 
+use App\Repository\SubCategoryRepository;
 use Doctrine\ORM\Mapping as ORM;
 #use App\Repository\SubCategoryRepository;
 
-/**
- * Subcategory
- *
- * @ORM\Table(name="subcategory", indexes={@ORM\Index(name="idCategory", columns={"idCategory"})})
- * @ORM\Entity(repositoryClass=App\Repository\SubCategoryRepository::class)
- */
+#[ORM\Entity(repositoryClass: SubCategoryRepository::class)]
 class Subcategory
 {
-    /**
-     * @var int
-     *
-     * @ORM\Column(name="idSubCategory", type="integer", nullable=false)
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="IDENTITY")
-     */
+   #[ORM\Id]
+    #[ORM\GeneratedValue]
+    #[ORM\Column(type: "integer")]
     private $idsubcategory;
 
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="name", type="string", length=15, nullable=false)
-     */
+    #[ORM\Column(type: "string", length: 15)]
     private $name;
 
     /**

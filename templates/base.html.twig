@@ -15,10 +15,11 @@
 		</title>
 		<!-- Favicon icon -->
 		<link
-		rel="icon" type="image/png" sizes="16x16" href="images/favicon.png">
+		rel="icon" type="image/png" sizes="16x16" href="{{ asset('images/favicon.png') }}">
 		<!-- Custom Stylesheet -->
 		{% block css %}
 			<link rel="stylesheet" href="{{ asset('css/style.css') }}">
+			<link rel="stylesheet" href="{{ asset('css/styleAcc.css') }}">
 			<link rel="stylesheet" href="{{ asset('vendor/toastr/toastr.min.css') }}">
 			
 		{% endblock %}
@@ -47,6 +48,15 @@
 		</div>
 		{% include 'footer.html.twig' %}
 
-		{% include 'includejs.html.twig' %}
+			{% block js %}
+	<script src="{{ asset('vendor/jquery/jquery.min.js')}}"></script>
+	<script src="{{ asset('vendor/bootstrap/js/bootstrap.bundle.min.js')}}"></script>
+	<script src="{{ asset('vendor/chartjs/chartjs.js')}}"></script>
+	<script src="{{ asset('js/plugins/chartjs-line-balance-overtime.js')}}"></script>
+
+	<script src="{{ asset('js/scripts.js')}}"></script>
+	<script src="{{ asset('js/walletScripts.js')}}"></script>
+
+    {% endblock %}
 	</body>
 </html></body>
