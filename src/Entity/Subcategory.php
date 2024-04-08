@@ -17,28 +17,15 @@ class Subcategory
     #[ORM\Column(type: "string", length: 15)]
     private $name;
 
-    /**
-     * @var float
-     *
-     * @ORM\Column(name="mtAssigné", type="float", precision=10, scale=0, nullable=false)
-     */
+    #[ORM\Column(type: "float")]
     private $mtassigné;
 
-    /**
-     * @var float
-     *
-     * @ORM\Column(name="mtDépensé", type="float", precision=10, scale=0, nullable=false)
-     */
+    #[ORM\Column(type: "float")]
     private $mtdépensé;
 
-    /**
-     * @var \int
-     *
-     * @ORM\ManyToOne(targetEntity="Category")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="idCategory", referencedColumnName="idCategory")
-     * })
-     */
+
+    #[ORM\ManyToOne(targetEntity: Category::class)]
+    #[ORM\JoinColumn(name: "idCategory", referencedColumnName: "idcategory")]
     private $idcategory;
 
     public function getIdsubcategory(): ?int
@@ -82,7 +69,7 @@ class Subcategory
         return $this;
     }
 
-    public function getIdcategory(): ?int
+    public function getIdcategory(): ?Category
     {
         return $this->idcategory;
     }

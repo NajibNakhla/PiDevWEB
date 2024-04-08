@@ -3,6 +3,7 @@
 namespace App\Repository;
 
 use App\Entity\Subcategory;
+use App\Entity\Wallet;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -21,6 +22,25 @@ class SubCategoryRepository extends ServiceEntityRepository
         parent::__construct($registry, Subcategory::class);
     }
 
+
+
+    public function findBudgetSubcategory(): ?SubCategory
+    {
+        return $this->findOneBy(['name' => 'Budget']);
+    }
+
+    public function findByWalletId(Wallet $wallet): array
+    {
+        return $this->createQueryBuilder('sc')
+            ->join('sc.idcategory', 'c')
+            ->andWhere('c.idwallet = :wallet')
+            ->setParameter('wallet', $wallet)
+            ->getQuery()
+            ->getResult();
+    }
+
+
+    
 //    /**
 //     * @return Subcategory[] Returns an array of Subcategory objects
 //     */

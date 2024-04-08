@@ -157,7 +157,7 @@ class AccountsController extends AbstractController
         $this->transactionService = $transactionService;
     }
 
-    #[Route('/get-transactions/{accountId}', name: 'get_transactions')]
+    #[Route('/accounts/get-transactions/{accountId}', name: 'get_transactions')]
     public function getTransactions(int $accountId): JsonResponse
     {
         $transactions = $this->transactionService->getTransactionsByAccountId($accountId);
@@ -170,6 +170,7 @@ class AccountsController extends AbstractController
                 'description' => $transaction->getDescription(),
                 'type' => $transaction->getType(),
                 'amount' => $transaction->getAmount(),
+                'currency_symbol' => $transaction->getToAccount()->getIdWallet()->getCurrencySymbol(),
             ];
         }
 

@@ -3,22 +3,15 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use App\Repository\CategoryRepository;
 #use App\Repository\CategoryRepository;
-/**
- * Category
- *
- * @ORM\Table(name="category", indexes={@ORM\Index(name="idWallet", columns={"idWallet"})})
- * @ORM\Entity(repositoryClass=App\Repository\CategoryRepository::class)
- */
+
+#[ORM\Entity(repositoryClass: CategoryRepository::class)]
 class Category
 {
-    /**
-     * @var int
-     *
-     * @ORM\Column(name="idCategory", type="integer", nullable=false)
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="IDENTITY")
-     */
+    #[ORM\Id]
+    #[ORM\GeneratedValue]
+    #[ORM\Column(type: "integer")]
     private $idcategory;
 
     /**
@@ -35,14 +28,8 @@ class Category
      */
     private $budgetlimit;
 
-    /**
-     * @var \int
-     *
-     * @ORM\ManyToOne(targetEntity="Wallet")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="idWallet", referencedColumnName="idWallet")
-     * })
-     */
+    #[ORM\ManyToOne(targetEntity: Wallet::class)]
+    #[ORM\JoinColumn(name: "idWallet", referencedColumnName: "idwallet")]
     private $idwallet;
 
     public function getIdcategory(): ?int

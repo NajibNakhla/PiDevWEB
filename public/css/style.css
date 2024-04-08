@@ -18062,6 +18062,37 @@ figure > img:hover {
   color: #2F2CD8;
 }
 
+.settings-menu .selectAccountForTransac {
+  /* Remove default border */
+  border: none !important;
+  /* Apply default link color and underline text decoration */
+  color: #7184ad;
+  
+  /* Set background color */
+  background-color: transparent; /* or any other desired color */
+  /* Add padding to ensure content is not too close to the border */
+  padding: 5px 10px;
+}
+
+/* Apply hover styles when the select element is hovered */
+.settings-menu .selectAccountForTransac:hover {
+  /* Change link color on hover */
+  color: rgba(var(--bs-link-hover-color-rgb), var(--bs-link-opacity, 1));
+}
+
+/* Apply active styles when the select element is active */
+.settings-menu .selectAccountForTransac:active {
+  /* Adjust styles as needed */
+}
+
+/* Apply focus styles when the select element is focused */
+.settings-menu .selectAccountForTransac:focus {
+  /* Adjust styles as needed */
+}
+.dark-theme .settings-menu .selectAccountForTransac:hover, .dark-theme .settings-menu .selectAccountForTransac:focus, .dark-theme .settings-menu .selectAccountForTransac:active, .dark-theme .settings-menu .selectAccountForTransac.active {
+  color: #fff;
+}
+
 .welcome-profile img {
   border: 4px solid #fff;
   border-radius: 100px;

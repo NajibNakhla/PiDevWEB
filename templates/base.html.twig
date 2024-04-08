@@ -35,7 +35,17 @@
 				<div></div>
 			</div>
 		</div>
-
+ <!-- Flash messages -->
+{% for flashMessage in app.flashes('error') %}
+    <div class="alert alert-danger" role="alert">
+        {{ flashMessage }}
+    </div>
+{% endfor %}
+{% for flashMessage in app.flashes('success') %}
+    <div class="alert alert-success" role="alert">
+        {{ flashMessage }}
+    </div>
+{% endfor %}
 		<div id="main-wrapper">
 			{% include 'navbar.html.twig' %}
 			{% include 'sidebar.html.twig' %}
@@ -56,6 +66,7 @@
 
 	<script src="{{ asset('js/scripts.js')}}"></script>
 	<script src="{{ asset('js/walletScripts.js')}}"></script>
+	
 
     {% endblock %}
 	</body>

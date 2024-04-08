@@ -32,6 +32,15 @@ class AccountRepository extends ServiceEntityRepository
         ->getResult();
     }
 
+    public function findByWalletId( $walletId): array
+    {
+        return $this->createQueryBuilder('a')
+            ->andWhere('a.idwallet = :walletId')
+            ->setParameter('walletId', $walletId)
+            ->getQuery()
+            ->getResult();
+    }
+
 
 
 //    /**

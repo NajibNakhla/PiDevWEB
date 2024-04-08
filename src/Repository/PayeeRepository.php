@@ -21,6 +21,18 @@ class PayeeRepository extends ServiceEntityRepository
         parent::__construct($registry, Payee::class);
     }
 
+
+
+    public function findByWalletId($walletId)
+    {
+        return $this->createQueryBuilder('p')
+            ->join('p.idwallet', 'w')
+            ->andWhere('w.idwallet = :walletId')
+            ->setParameter('walletId', $walletId)
+            ->getQuery()
+            ->getResult();
+    }
+
 //    /**
 //     * @return Payee[] Returns an array of Payee objects
 //     */
