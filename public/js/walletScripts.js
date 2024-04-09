@@ -149,6 +149,18 @@ function updateDefaultAccountNamePlace(accountId) {
                     <td>${transaction.fromaccount}</td>
                     <td>${transaction.toaccount}</td>
                     <td>${transaction.payee}</td>
+                    <td>
+                    <div class="account-actions">
+                      <a href="#" onclick="showDeleteConfirmationModal(${transaction.idtransaction})">
+                        <span>
+                         <i class="fi fi-rr-trash delete-button"></i>
+                        </span>
+                      </a>
+
+
+
+                    </div>
+                </td>
                 </tr>
             `;
             transactionTableBody.insertAdjacentHTML('beforeend', row);
@@ -204,5 +216,37 @@ function updateDefaultAccountNamePlace(accountId) {
         showTransferForm(selectedAccountId);
         
     }
-
-
+    function showDeleteConfirmationModal(transactionId) {
+        // Set the delete URL with the transaction ID and route path
+        const deleteUrl = `/transaction/delete/${transactionId}`;
+    
+        // Set the delete URL as a data attribute on the confirmation button
+        const confirmDeleteBtn = document.getElementById('confirmDeleteBtn');
+        if (confirmDeleteBtn) {
+            confirmDeleteBtn.setAttribute('data-delete-url', deleteUrl);
+    
+            // Show the delete confirmation modal
+            const modal = new bootstrap.Modal(document.getElementById('deleteConfirmationModal'));
+            modal.show();
+        } else {
+            console.error('Confirm delete button not found.');
+        }
+    }
+    
+    function deleteTransaction() {
+        // Get the delete URL from the confirmation button's data attribute
+        const deleteUrl = document.getElementById('confirmDeleteBtn').getAttribute('data-delete-url');
+        if (deleteUrl) {
+            // Redirect to the delete URL
+            window.location.href = deleteUrl;
+        } else {
+            console.error('Delete URL not found.');
+        }
+    }
+    
+    // Call showDeleteConfirmationModal when the delete button is clicked
+    document.getElementById('confirmDeleteBtn').addEventListener('click', function() {
+        const deleteUrl = this.getAttribute('data-delete-url');
+        deleteTransaction(deleteUrl);
+    });
+    

@@ -64,6 +64,7 @@
 							</div>
 						</div>
 						<div class="card-body">
+						{% include 'transaction/transaction_delete_modal.html.twig' %}
 							<div class="transaction-table">
 								<div class="table-responsive">
 									<table class="table mb-0 table-responsive-sm" id="transactionTable">
@@ -77,6 +78,7 @@
 												<th>From Account</th>
 												<th>To Account</th>
 												<th>Payee</th>
+												<th></th>
 
 											</tr>
 										</thead>

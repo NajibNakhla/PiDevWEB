@@ -72,6 +72,7 @@ class TransactionController extends AbstractController
         $serializedTransactions = [];
         foreach ($transactions as $transaction) {
             $serializedTransactions[] = [
+                'idtransaction' => $transaction->getIdtransaction(),
                 'category' => $transaction->getIdCategory()->getName(),
                 'date' => $transaction->getDate()->format('Y-m-d'),
                 'description' => $transaction->getDescription(),
@@ -342,6 +343,26 @@ class TransactionController extends AbstractController
             'insufficientFundsError' => $insufficientFundsError ?? null, // Pass the error message to the Twig template
         ]);
     }
-    
-    
+
+
+
+    #[Route('/transaction/delete/{id}', name: 'transaction_delete')]
+public function deleteTransaction(int $id): Response
+{
+    $transaction = $this->transactionRepository->find($id);
+    if (!$transaction) {
+        throw $this->createNotFoundException('Transaction not found');
+    }
+
+    $this->transactionService->deleteTransaction($transaction);
+
+    // Optionally add a flash message or any other post-delete logic
+        
+    return $this->redirectToRoute('app_transaction');
 }
+
+
+}
+    
+    
+

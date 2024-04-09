@@ -49,7 +49,7 @@
 				</div>
 
 				<div class="card-body">
-				
+
 					{% for account in accounts %}
 						<div class="verify-content">
 							<div class="d-flex align-items-center">
@@ -66,9 +66,11 @@
 							</div>
 
 							<div class="account-actions">
-								<span>
-									<i class="fi fi-rs-pencil"></i>
-								</span>
+								<a href="{{ path('account_edit', {'id': account.idaccount}) }}">
+									<span>
+										<i class="fi fi-rs-pencil"></i>
+									</span>
+								</a>
 								<span>
 									<i class="fi fi-rr-eye"></i>
 								</span>
@@ -78,9 +80,9 @@
 							</div>
 						</div>
 						<hr class="border opacity-1">
-                    {% include 'accounts/delete_account_modal.html.twig' %}
+						{% include 'accounts/delete_account_modal.html.twig' %}
 					{% endfor %}
-					
+
 
 					<div class="mt-5">
 						<a href="{{ path('account_add') }}" class="btn btn-primary m-2">Add Account</a>
@@ -92,36 +94,31 @@
 </div>
 
 <script>
-function confirmDelete(accountId) {
-    // Show the modal
-    var modal = new bootstrap.Modal(document.getElementById('deleteAccountModal'));
-    modal.show();
-    
-    // Update the href attribute of the delete button
-    var deleteButton = document.getElementById('confirmDeleteButton');
-    deleteButton.href = '/accounts/delete/' + accountId;
+	function confirmDelete(accountId) { // Show the modal
+var modal = new bootstrap.Modal(document.getElementById('deleteAccountModal'));
+modal.show();
+
+// Update the href attribute of the delete button
+var deleteButton = document.getElementById('confirmDeleteButton');
+deleteButton.href = '/accounts/delete/' + accountId;
 }
 
-document.addEventListener('DOMContentLoaded', function() {
-    var deleteModal = new bootstrap.Modal(document.getElementById('deleteAccountModal'));
+document.addEventListener('DOMContentLoaded', function () {
+var deleteModal = new bootstrap.Modal(document.getElementById('deleteAccountModal'));
 
-    function confirmDelete(accountId) {
-        // Update the delete link href attribute with the account ID
-        document.getElementById('deleteAccountLink').href = '/accounts/delete/' + accountId;
-        // Show the modal
-        deleteModal.show();
-    }
+function confirmDelete(accountId) { // Update the delete link href attribute with the account ID
+document.getElementById('deleteAccountLink').href = '/accounts/delete/' + accountId;
+// Show the modal
+deleteModal.show();
+}
 
-    // Example: Call confirmDelete function when a delete button is clicked
-    var deleteButtons = document.querySelectorAll('.delete-button');
-    deleteButtons.forEach(function(button) {
-        button.addEventListener('click', function() {
-            var accountId = this.dataset.accountId;
-            confirmDelete(accountId);
-        });
-    });
+// Example: Call confirmDelete function when a delete button is clicked
+var deleteButtons = document.querySelectorAll('.delete-button');
+deleteButtons.forEach(function (button) {
+button.addEventListener('click', function () {
+var accountId = this.dataset.accountId;
+confirmDelete(accountId);
 });
-
-
-
+});
+});
 </script>{% endblock %}
