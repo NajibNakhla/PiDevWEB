@@ -64,6 +64,11 @@
 									<span class="text-success">{{ account.idwallet.getCurrencySymbol() }}{{ account.balance}}</span>
 								</div>
 							</div>
+							<div class="primary-number">
+								
+									<span >{{ account.description}}</span>
+								</div>
+
 
 							<div class="account-actions">
 								<a href="{{ path('account_edit', {'id': account.idaccount}) }}">

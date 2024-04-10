@@ -340,4 +340,61 @@ function updateDefaultAccountNamePlace(accountId) {
     
 
 
+    function editPayee(payeeId) {
+        const payeeNameElement = document.getElementById(`payeeName_${payeeId}`);
+        const payeeName = payeeNameElement.textContent.trim();
+        const inputField = document.createElement('input');
+        inputField.type = 'text';
+        inputField.className = 'form-control';
+        inputField.id = `editPayeeName_${payeeId}`;
+        inputField.value = payeeName;
+    
+        const updateButton = document.createElement('button');
+        updateButton.type = 'button';
+        updateButton.className = 'btn btn-primary';
+        updateButton.textContent = 'Update';
+        updateButton.onclick = function() {
+            updatePayee(payeeId);
+        };
+    
+        const errorMessage = document.createElement('div');
+        errorMessage.className = 'text-danger';
+        errorMessage.id = `editWarningMessage_${payeeId}`;
+    
+        // Insert elements into the DOM
+        const parentElement = payeeNameElement.parentElement;
+        parentElement.innerHTML = '';
+        parentElement.appendChild(inputField);
+        parentElement.appendChild(errorMessage);
+        parentElement.appendChild(updateButton);
+    }
+    
+    function updatePayee(payeeId) {
+        // Get the payee ID and new name from the input field
+        const newPayeeName = document.getElementById(`editPayeeName_${payeeId}`).value;
+    
+        // Send an AJAX request to update the payee
+        fetch(`/payee/update/${payeeId}`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ payeeName: newPayeeName }),
+        })
+        .then(response => {
+            if (response.ok) {
+                // Reload the payees list or update it as necessary
+                loadPayees();
+            } else {
+                // Display error message
+                response.text().then(errorMessage => {
+                    const errorMessageElement = document.getElementById(`editWarningMessage_${payeeId}`);
+                    errorMessageElement.textContent = errorMessage;
+                });
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+        });
+    }
     

@@ -20,6 +20,7 @@ use App\Repository\PayeeRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use App\Service\TransactionService;
 use Symfony\Component\Form\FormError;
+use Symfony\Component\Validator\Validator\ValidatorInterface;
 class AccountsController extends AbstractController
 {  
     private $transactionRepository;

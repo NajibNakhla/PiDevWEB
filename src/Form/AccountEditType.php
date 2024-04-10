@@ -22,7 +22,7 @@ class AccountEditType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-        ->add('nameAccount', TextType::class ,[
+        ->add('nameaccount', TextType::class ,[
             'constraints' => [
                 new NotBlank([
                     'message' => 'Name is required.',
@@ -51,6 +51,7 @@ class AccountEditType extends AbstractType
                 
             ],
             'required' => true, // Make the field required even if it's empty
+            
         ])
         ;
     }

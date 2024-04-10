@@ -10,9 +10,9 @@
         <tbody>
             {% for payee in payees %}
                 <tr>
-                    <td>{{ payee.namepayee }}</td>
+                    <td id="payeeName_{{ payee.idpayee }}">{{ payee.namepayee }}</td>
                     <td class="payee-actions">
-                        <span class="btn btn-success btn-sm edit-button">
+                        <span class="btn btn-success btn-sm edit-button" onclick="editPayee({{ payee.idpayee }})">
                             <i class="fi fi-rr-pencil edit-icon"></i>
                         </span>
                     </td>

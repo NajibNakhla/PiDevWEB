@@ -11,6 +11,7 @@ use App\Repository\TransactionRepository;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use App\Repository\WalletRepository;
+use Doctrine\DBAL\Exception\UniqueConstraintViolationException;
 
 class PayeeController extends AbstractController
 { 
@@ -108,5 +109,40 @@ class PayeeController extends AbstractController
         return new Response('Payee deleted successfully', Response::HTTP_OK);
     }
     
+    #[Route('/payee/update/{id}', name: 'update_payee')]
+    public function updatePayee(Request $request, int $id): Response
+    {
+        $entityManager = $this->getDoctrine()->getManager();
+        $payee = $this->payeeRepository->find($id);
+    
+        if (!$payee) {
+            return new Response('Payee not found', Response::HTTP_NOT_FOUND);
+        }
+    
+        $requestData = json_decode($request->getContent(), true);
+    
+        // Check if the 'payeeName' key exists in the decoded JSON data
+        if (!isset($requestData['payeeName']) || empty($requestData['payeeName'])) {
+            return new Response('Payee name is required', Response::HTTP_BAD_REQUEST);
+        }
+    
+        $newPayeeName = $requestData['payeeName'];
+    
+        // Check if the payee name already exists
+        $existingPayee = $this->payeeRepository->findOneBy(['namepayee' => $newPayeeName]);
+        if ($existingPayee && $existingPayee->getIdpayee() !== $payee->getIdpayee()) {
+            return new Response('Payee name already exists', Response::HTTP_BAD_REQUEST);
+        }
+    
+        try {
+            // Update the payee name
+            $payee->setNamepayee($newPayeeName);
+            $entityManager->flush();
+        } catch (UniqueConstraintViolationException $e) {
+            return new Response('Payee name must be unique', Response::HTTP_BAD_REQUEST);
+        }
+    
+        return new Response('Payee updated successfully', Response::HTTP_OK);
+    }
 
 }
