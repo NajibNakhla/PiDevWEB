@@ -271,11 +271,15 @@ function updateDefaultAccountNamePlace(accountId) {
         loadPayees();
     });
 
+   
     function addPayee() {
         // Get the payee name from the input field
         const payeeName = document.getElementById('payeeName').value;
     
-        // Perform any necessary validation
+        if (!payeeName) {
+            document.getElementById('warningMessage').textContent = 'Payee name cannot be empty';
+            return;
+        }
     
         // Send an AJAX request to add the payee
         fetch('/payee/add', {
@@ -288,6 +292,11 @@ function updateDefaultAccountNamePlace(accountId) {
         .then(response => {
             if (response.ok) {
                 loadPayees();
+            } else if (response.status === 400) {
+                // Handle bad request (payee name already exists)
+                response.text().then(errorMessage => {
+                    document.getElementById('warningMessage').textContent = errorMessage;
+                });
             } else {
                 console.error('Failed to add payee');
             }
@@ -296,7 +305,9 @@ function updateDefaultAccountNamePlace(accountId) {
             console.error('Error:', error);
         });
     }
-
+    
+    
+    
 
     function deletePayee(payeeId) {
         // Send an AJAX request to delete the payee

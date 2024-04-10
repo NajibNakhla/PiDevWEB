@@ -49,15 +49,22 @@ class PayeeController extends AbstractController
         $userid = 2; 
         $idWallet = $this->walletRepository->getWalletByUserId($userid);
         $requestData = json_decode($request->getContent(), true);
-
-    // Check if the 'payeeName' key exists in the decoded JSON data
-    if (!isset($requestData['payeeName'])) {
-        return new Response('Payee name is required', Response::HTTP_BAD_REQUEST);
-    }
-
-    $payeeName = $requestData['payeeName'];
-        // Validate input if necessary
     
+        // Check if the 'payeeName' key exists in the decoded JSON data
+        if (!isset($requestData['payeeName'])) {
+            return new Response('Payee name is required', Response::HTTP_BAD_REQUEST);
+        }
+    
+        $payeeName = $requestData['payeeName'];
+    
+        // Check if the payee name already exists
+        $existingPayee = $this->payeeRepository->findOneBy(['namepayee' => $payeeName]);
+        if ($existingPayee) {
+            return new Response('Payee name already exists', Response::HTTP_BAD_REQUEST);
+        }
+    
+        // Validate input if necessary
+        
         $payee = new Payee();
         $payee->setNamepayee($payeeName);
         $payee->setIdwallet($idWallet);
@@ -69,6 +76,7 @@ class PayeeController extends AbstractController
         // Return a success response
         return new Response('Payee added successfully', Response::HTTP_OK);
     }
+    
 
     
     #[Route('/payee/delete/{id}', name: 'delete_payee')]

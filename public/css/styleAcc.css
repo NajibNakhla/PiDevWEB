@@ -17,6 +17,53 @@
     color: #DC2626;
   }
 
+
+  .payee-actions span {
+    display: inline-block;
+    padding: 7px 10px;
+    border-radius: 4px;
+    height: 30px;
+    cursor: pointer;
+    margin-left: 5px;
+}
+
+#payeeName {
+  border-radius: 0;
+  border-top-right-radius: 0.25rem;
+  border-bottom-right-radius: 0.25rem;
+}
+
+#addPayeeBtn {
+  border-radius: 0;
+  border-top-left-radius: 0.25rem;
+  border-bottom-left-radius: 0.25rem;
+}
+
+/* Add custom classes for styling */
+.payee-actions .edit-button {
+  display: inline-block;
+  padding: 7px 10px;
+  border-radius: 4px;
+  height: 30px;
+  background-color: #d3fae2; /* Green background color */
+  color: #12a347; /* Green text color */
+  cursor: pointer;
+  margin-left: 5px;
+}
+
+.payee-actions .delete-button {
+  display: inline-block;
+  padding: 7px 10px;
+  border-radius: 4px;
+  height: 30px;
+  background-color: #fcecec; /* Red background color */
+  color: #dc2626; /* Red text color */
+  cursor: pointer;
+  margin-left: 5px;
+}
+
+
+
   /* Modal styles */
   .modal {
     display: none; /* Initially hidden */
