@@ -361,6 +361,25 @@ public function deleteTransaction(int $id): Response
     return $this->redirectToRoute('app_transaction');
 }
 
+#[Route('/transaction/export-transactions', name: 'export_transactions')]
+public function exportTransactions(): Response
+{
+    // Fetch transactions data from your database or any other source
+    $transactions = $this->getDoctrine()->getRepository(Transaction::class)->findAll();
+
+    // Create a CSV file content
+    $csvContent = "Category,Date,Type,Description,Amount,From Account,To Account,Payee\n";
+    foreach ($transactions as $transaction) {
+        $csvContent .= "{$transaction->getIdCategory()->getName()},{$transaction->getDate()->format('Y-m-d')},{$transaction->getType()},{$transaction->getDescription()},{$transaction->getAmount()},{$transaction->getFromaccount()->getNameaccount()},{$transaction->getToaccount()->getNameaccount()},{$transaction->getidPayee()->getNamepayee()}\n";
+    }
+
+    // Set response headers for CSV file download
+    $response = new Response($csvContent);
+    $response->headers->set('Content-Type', 'text/csv');
+    $response->headers->set('Content-Disposition', 'attachment; filename="transactions.csv"');
+
+    return $response;
+}
 
 }
     

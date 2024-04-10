@@ -166,18 +166,73 @@ function updateDefaultAccountNamePlace(accountId) {
             `;
             transactionTableBody.insertAdjacentHTML('beforeend', row);
         });
-    }
 
-    //transaction modal 
-    function showIncomeForm(selectedAccountId) {
-        // Logic to show the income transaction form
-        const url = `/transaction/add/income/${selectedAccountId}`;
-    
-        // Redirect the user to the add income form page
-        window.location.href = url;
-    }
-    
-    
+
+}
+//csv
+
+document.addEventListener('DOMContentLoaded', () => {
+    // Add event listener to the Export button
+    const exportButton = document.getElementById('exportButton');
+    exportButton.addEventListener('click', () => {
+        exportTransactionsToCSV();
+    });
+});
+
+function exportTransactionsToCSV() {
+    fetch('/transaction/export-transactions')
+        .then(response => {
+            if (!response.ok) {
+                throw new Error(`Network response was not ok: ${response.status}`);
+            }
+            return response.blob();
+        })
+        .then(blob => {
+            // Create a temporary anchor element
+            const url = window.URL.createObjectURL(new Blob([blob]));
+            console.log('Generated URL:', url);
+
+            const a = document.createElement('a');
+            a.style.display = 'none';
+            a.href = url;
+            a.download = 'transactions.csv';
+
+            // Append the anchor to the body and click it programmatically
+            document.body.appendChild(a);
+            console.log('Anchor element created and appended to body:', a);
+
+            a.click();
+            console.log('Anchor clicked programmatically');
+
+            // Cleanup
+            window.URL.revokeObjectURL(url);
+            document.body.removeChild(a);
+            console.log('Cleanup done');
+        })
+        .catch(error => console.error('Error exporting CSV:', error));
+}
+
+
+
+
+
+
+
+
+
+
+
+
+//transaction modal 
+function showIncomeForm(selectedAccountId) {
+    // Logic to show the income transaction form
+    const url = `/transaction/add/income/${selectedAccountId}`;
+
+    // Redirect the user to the add income form page
+    window.location.href = url;
+}
+
+
     
     
     
