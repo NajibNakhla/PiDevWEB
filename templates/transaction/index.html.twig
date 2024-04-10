@@ -41,16 +41,17 @@
 					{% endfor %}
 				</select>
 				{% include 'transaction/transaction_modal.html.twig' %}
-				<a href="#" style="margin-right: 10px;" data-bs-toggle="modal" data-bs-target="#transactionTypeModal">
-					Add Transaction
-					<i class="fi fi-rr-square-plus"></i>
-					<a href="analytics.html">Analytics</a>
-					<a href="analytics-expenses.html">Expenses</a>
-					<a href="analytics-income.html">Income</a>
-					<a href="analytics-income-vs-expenses.html">Income vs Expenses</a>
-					<a href="analytics-balance.html">Balance</a>
-					<a href="analytics-transaction-history.html">Transaction History</a>
+				
 				</div>
+				<div class="settings-menu">
+				
+				<a href="#" style="margin-right: 10px;" data-bs-toggle="modal" data-bs-target="#transactionTypeModal">
+				<i class="fi fi-rr-square-plus"></i>
+					Add Transaction
+					</a>
+				<a href="#" data-bs-toggle="modal" data-bs-target="#payeeModal">Manage Payees</a>
+				</div>
+				{% include 'payee/payee_modal.html.twig' %}
 				<div class="row">
 					<div class="col-xl-12">
 						<div class="card">

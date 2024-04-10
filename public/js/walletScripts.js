@@ -38,6 +38,7 @@ const categoryIcons = {
     'Bills & Fees': 'bg-blue-500 fi fi-rr-receipt',
     'Car': 'bg-cyan-500 fi fi-rr-car-side',
     'Entertainment': 'bg-cyan-500 fi fi-rr-car-side',
+    'Groceries': 'bg-cyan-500 fi fi-br-basket-shopping-simple',
 
  
 };
@@ -249,4 +250,83 @@ function updateDefaultAccountNamePlace(accountId) {
         const deleteUrl = this.getAttribute('data-delete-url');
         deleteTransaction(deleteUrl);
     });
+    
+
+    //payees scripts
+    function loadPayees() {
+        // Make an AJAX request to fetch the payees content
+        fetch('/payee')
+            .then(response => response.text())
+            .then(html => {
+                // Update the modal body with the fetched payees content
+                document.getElementById('payeeModalBody').innerHTML = html;
+            })
+            .catch(error => {
+                console.error('Error fetching payees:', error);
+            });
+    }
+
+    // Call the loadPayees function when the modal is shown
+    $('#payeeModal').on('show.bs.modal', function (event) {
+        loadPayees();
+    });
+
+    function addPayee() {
+        // Get the payee name from the input field
+        const payeeName = document.getElementById('payeeName').value;
+    
+        // Perform any necessary validation
+    
+        // Send an AJAX request to add the payee
+        fetch('/payee/add', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ payeeName: payeeName }),
+        })
+        .then(response => {
+            if (response.ok) {
+                loadPayees();
+            } else {
+                console.error('Failed to add payee');
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+        });
+    }
+
+
+    function deletePayee(payeeId) {
+        // Send an AJAX request to delete the payee
+        fetch(`/payee/delete/${payeeId}`, {
+            method: 'DELETE',
+        })
+        .then(response => {
+            if (response.ok) {
+                // Reload the payees modal content to update the list
+                loadPayees();
+            } else {
+                console.error('Failed to delete payee');
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+        });
+    }
+    
+    // Event listener for delete buttons
+    document.addEventListener('click', function(event) {
+        if (event.target.classList.contains('delete-payee')) {
+            const payeeId = event.target.dataset.payeeId;
+            if (confirm('Are you sure you want to delete this payee?')) {
+                deletePayee(payeeId);
+            }
+        }
+    });
+    
+    
+
+
     

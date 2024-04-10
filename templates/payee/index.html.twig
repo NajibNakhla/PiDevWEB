@@ -1,0 +1,15 @@
+
+
+<div class="modal-body">
+    <h4>List of Payees</h4>
+    <ul>
+        {% for payee in payees %}
+            <li>{{ payee.namepayee }}<button class="btn btn-danger btn-sm delete-payee" data-payee-id="{{ payee.idpayee }}">Delete</button></li>
+        {% endfor %}
+    </ul>
+    <form id="addPayeeForm">
+                    <input type="text" id="payeeName" name="payeeName" placeholder="Enter payee name">
+                    <button type="button" id="addPayeeBtn" onclick="addPayee()">Add Payee</button>
+    </form>
+</div>
+
