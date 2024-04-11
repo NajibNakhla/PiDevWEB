@@ -526,3 +526,30 @@ function updateExchangeRates() {
 
 
 
+function changeCurrency(selectedCurrency) {
+    // Make an AJAX request to change the currency
+    fetch(`/settings/change-currency/${selectedCurrency}`, { // Include selectedCurrency in the URL
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({}), // No need to send a body since the currency is in the URL
+    })
+    .then(response => response.json())
+    .then(data => {
+        // Check if the currency change was successful
+        if (data.message === 'Currency changed successfully') {
+            // Reload the page or update the UI as needed
+            location.reload(); // Reload the page
+            // You can also update specific parts of the UI without reloading the page
+        } else {
+            // Handle errors or display a message to the user
+            console.error('Failed to change currency:', data.error);
+            // You can display an error message to the user
+        }
+    })
+    .catch(error => {
+        console.error('Error changing currency:', error);
+        // Handle errors or display a message to the user
+    });
+}

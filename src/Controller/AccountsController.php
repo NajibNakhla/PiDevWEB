@@ -228,6 +228,11 @@ class AccountsController extends AbstractController
             // Calculate the difference between old and new balances
             $difference = $newBalance - $oldBalance;
             $budgetSubcategory = $this->subCategoryRepository->findBudgetSubcategory();
+
+               // Update wallet balance
+            $walletBalance = $wallet->getTotalbalance();
+            $wallet->setTotalbalance($walletBalance + $difference);
+            $entityManager->persist($wallet);
     
             // Create a new transaction based on the difference
             if ($difference != 0) {

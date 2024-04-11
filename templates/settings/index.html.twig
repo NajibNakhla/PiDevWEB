@@ -161,42 +161,41 @@
 										<tbody>
 											<tr>
 												<td>
-													<span class="text-primary">Exchange Amount</span>
+													<span class="text-primary">Current Currency</span>
 												</td>
 												<td>
-													<span class="text-primary">75 USD
+													<span class="text-primary">{{wallet.currency}}
 													</span>
 												</td>
 											</tr>
 											<tr>
-												<td>Payment Method</td>
-												<td>Bank of America Bank ***********5245</td>
-											</tr>
-											<tr>
-												<td>Exchange Rate</td>
-												<td>1 USD = 0.92 Euro</td>
-											</tr>
-											<tr>
-												<td>Fee</td>
-												<td>$0.75 USD</td>
-											</tr>
-											<tr>
-												<td>Total</td>
-												<td>$68.00 Euro</td>
-											</tr>
-											<tr>
-												<td>Vat</td>
 												<td>
-													<div class="text-danger">$0.25 Euro</div>
+													<span>Current Balance</span>
+												</td>
+												<td>
+													<span class="text-success">{{wallet.getCurrencySymbol()}}{{wallet.totalbalance}}
+													</span>
 												</td>
 											</tr>
 											<tr>
 												<td>
-													Sub Total</td>
+													<span>Change Currency</span>
+												</td>
 												<td>
-													$69.00 Euro</td>
+													<select id="currencySelect" class="form-select" onchange="changeCurrency(this.value)">
+														<option value="USD">US-dollar</option>
+														<option value="EUR">Euro</option>
+														<option value="TND">Tunisian Dinar</option>
+														
+													</select>
+													
+												</td>
+                                                
+												
 											</tr>
+ 
 										</tbody>
+										
 									</table>
 								</div>
 							</div>
@@ -216,10 +215,10 @@
 <script src="{{ asset('js/walletScripts.js')}}"></script>
 
 <script>
-      $(document).ready(function() {
-    $('.stat-widget-2').hide().fadeIn(3000); // Adjust the duration as needed
+	$(document).ready(function () {
+$('.stat-widget-2').hide().fadeIn(3000); // Adjust the duration as needed
 });
-	document.addEventListener('DOMContentLoaded', function () {
+document.addEventListener('DOMContentLoaded', function () {
 
 updateExchangeRates();
 });
