@@ -453,3 +453,76 @@ function showIncomeForm(selectedAccountId) {
         });
     }
     
+
+    //currency scripts 
+    function getExchangeRate() {
+        const fromCurrency = document.getElementById('fromCurrency').value;
+        const toCurrency = document.getElementById('toCurrency').value;
+        const exchangeRateInput = document.getElementById('exchangeRate');
+    
+        fetch(`/settings/exchange-rate/${fromCurrency}/${toCurrency}`)
+            .then(response => response.json())
+            .then(data => {
+                if (data.exchangeRate !== undefined) {
+                    exchangeRateInput.value = data.exchangeRate;
+                } else {
+                    exchangeRateInput.value = 'Exchange rate not found';
+                }
+            })
+            .catch(error => {
+                console.error('Error fetching exchange rate:', error);
+                exchangeRateInput.value = 'Error fetching exchange rate';
+            });
+    }
+    
+
+    // Fetch exchange rates and update widgets
+// Function to update exchange rates
+function updateExchangeRates() {
+    // Fetch exchange rate for USD
+    fetch(`/settings/exchange-rate/TND/USD`)
+        .then(response => response.json())
+        .then(data => {
+            const usdExchangeRateElement = document.getElementById('usdExchangeRate');
+            usdExchangeRateElement.textContent = `1 TND = ${data.exchangeRate} USD`;
+        })
+        .catch(error => {
+            console.error('Error fetching USD exchange rate:', error);
+        });
+
+    // Fetch exchange rate for Euro
+    fetch(`/settings/exchange-rate/TND/EUR`)
+        .then(response => response.json())
+        .then(data => {
+            const euroExchangeRateElement = document.getElementById('euroExchangeRate');
+            euroExchangeRateElement.textContent = `1 TND = ${data.exchangeRate} Euro`;
+        })
+        .catch(error => {
+            console.error('Error fetching Euro exchange rate:', error);
+        });
+
+    // Fetch exchange rate for Pound
+    fetch(`/settings/exchange-rate/TND/GBP`)
+        .then(response => response.json())
+        .then(data => {
+            const poundExchangeRateElement = document.getElementById('poundExchangeRate');
+            poundExchangeRateElement.textContent = `1 TND = ${data.exchangeRate} GBP`;
+        })
+        .catch(error => {
+            console.error('Error fetching Pound exchange rate:', error);
+        });
+
+    // Fetch exchange rate for Yen
+    fetch(`/settings/exchange-rate/TND/JPY`)
+        .then(response => response.json())
+        .then(data => {
+            const yenExchangeRateElement = document.getElementById('yenExchangeRate');
+            yenExchangeRateElement.textContent = `1 TND = ${data.exchangeRate} JPY`;
+        })
+        .catch(error => {
+            console.error('Error fetching Yen exchange rate:', error);
+        });
+}
+
+
+
