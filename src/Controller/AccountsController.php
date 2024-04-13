@@ -280,6 +280,48 @@ class AccountsController extends AbstractController
     }
 
 
+
+
+    #[Route('/accounts/get-balance-over-time/{accountId}', name: 'get_balance_over_time')]
+public function getAccountBalanceOverTime($accountId): JsonResponse
+{
+    // Fetch the transactions for the specified account ID
+    $transactions = $this->transactionService->getTransactionsByAccountId($accountId);
+    
+    // Sort transactions by date
+    usort($transactions, function($a, $b) {
+        return $a->getDate() <=> $b->getDate();
+    });
+    
+    // Initialize balances
+    $incomeBalance = 0.0;
+    $expenseBalance = 0.0;
+    
+    // Map to store the combined balance for each date
+    $combinedBalanceMap = [];
+
+    // Iterate through transactions to calculate balance over time
+    foreach ($transactions as $transaction) {
+        $transactionDate = $transaction->getDate()->format('Y-m-d');
+
+        // Update the balance based on transaction type
+        if ($transaction->getType() == 'INCOME') {
+            $incomeBalance += $transaction->getAmount();
+        } else if ($transaction->getType() == 'EXPENSE') {
+            $expenseBalance += $transaction->getAmount();
+        }
+
+        // Calculate the net balance
+        $netBalance = $incomeBalance - $expenseBalance;
+
+        // Store the net balance for the date
+        $combinedBalanceMap[$transactionDate] = round($netBalance, 2); // Round to 2 decimal places
+    }
+
+    // Return the response as JSON
+    return new JsonResponse($combinedBalanceMap);
+}
+
 }
 
 

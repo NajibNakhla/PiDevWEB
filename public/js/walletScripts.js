@@ -5,9 +5,9 @@ function selectAccount(accountId, accountName, currencySymbol, balance) {
     document.getElementById('accountName').innerHTML = `<h3>${accountName}</h3>`;
     document.getElementById('bankNamePlaceholder').innerText = `Total Balance of ${accountName}`;
  
-    document.getElementById('accountBalance').innerHTML = `<h3>${currencySymbol} ${balance}</h3>`;
+    document.getElementById('accountBalance').innerHTML = `<h3>${currencySymbol} ${balance.toFixed(2)}</h3>`;
     
- 
+    setAccountBalanceOverTime(accountId);
 
 
 
@@ -63,7 +63,7 @@ function updateTransactionTable(transactions) {
                 <td>${transaction.date}</td>
                 <td>${transaction.description}</td>
                 <td>${transaction.type}</td>
-                <td>  ${transaction.currency_symbol}  ${transaction.amount}</td>        
+                <td>  ${transaction.currency_symbol}  ${transaction.amount.toFixed(2)}</td>     
             </tr>
         `;
         transactionTableBody.insertAdjacentHTML('beforeend', row);
@@ -115,7 +115,7 @@ function updateDefaultAccountNamePlace(accountId) {
         .then(account => {
             // Update the default account name place with the fetched account name
             const defaultAccountNamePlace = document.getElementById('defaultAccountNamePlace');
-            defaultAccountNamePlace.innerHTML = `Balance: ${account.nameaccount} <h4 class="text-success">${account.currency_symbol} ${account.balance}</h4>`;
+            defaultAccountNamePlace.innerHTML = `Balance: ${account.nameaccount} <h4 class="text-success">${account.currency_symbol} ${account.balance.toFixed(2)}</h4>`;
         })
         .catch(error => console.error('Error fetching account details:', error));
 }
@@ -146,7 +146,7 @@ function updateDefaultAccountNamePlace(accountId) {
                     <td>${transaction.date}</td>
                     <td>${transaction.type}</td>
                     <td>${transaction.description}</td>
-                    <td>  ${transaction.currency_symbol}  ${transaction.amount}</td> 
+                    <td>  ${transaction.currency_symbol}  ${transaction.amount.toFixed(2)}</td> 
                     <td>${transaction.fromaccount}</td>
                     <td>${transaction.toaccount}</td>
                     <td>${transaction.payee}</td>
@@ -553,3 +553,94 @@ function changeCurrency(selectedCurrency) {
         // Handle errors or display a message to the user
     });
 }
+
+//stats scripts
+function setAccountBalanceOverTime(accountId) {
+    // Make an AJAX request to fetch balance data over time for the specified account ID
+    fetch('/accounts/get-balance-over-time/' + accountId)
+        .then(response => response.json())
+        .then(balanceData => {
+            // Process the balance data and update the chart
+            updateBalanceChart(balanceData);
+        })
+        .catch(error => console.error('Error fetching balance over time:', error)); 
+}
+
+function updateBalanceChart(balanceData) {
+    // Extract labels (dates) and balance values from the balanceData object
+    const dates = Object.keys(balanceData);
+    const balances = Object.values(balanceData);
+
+    // Get the canvas element
+    var ctx = document.getElementById('chartjsBalanceOvertime').getContext('2d');
+
+    // Define the chart data
+    var data = {
+        labels: dates,
+        datasets: [{
+            label: 'Balance Over Time',
+            data: balances,
+            backgroundColor: "rgba(75, 192, 192, 0.5)",
+            borderColor: "rgb(75, 192, 192)",
+            borderWidth: 3,
+            strokeColor: "rgb(75, 192, 192)",
+            capBezierPoints: !0,
+            pointColor: "#fff",
+            pointBorderColor: "rgb(75, 192, 192)",
+            pointBackgroundColor: "#FFF",
+            pointBorderWidth: 3,
+            pointRadius: 5,
+            pointHoverBackgroundColor: "#FFF",
+            pointHoverBorderColor: "rgb(75, 192, 192)",
+            pointHoverRadius: 7,
+            tension: 0.1
+        }]
+    };
+
+    // Define the chart options
+    var options = {
+        responsive: true,
+        maintainAspectRatio: false,
+        animation: {
+            animateRotate: true,
+            animateScale: true,
+        },
+        scales: {
+            x: {
+                type: 'time',
+                time: {
+                    unit: 'month'
+                },
+                title: {
+                    display: true,
+                    text: 'Date'
+                }
+            },
+            y: {
+                title: {
+                    display: true,
+                    text: 'Balance'
+                }
+            }
+        }
+    };
+
+    // Create or update the chart instance
+    if (window.myChart) {
+        // Update existing chart
+        window.myChart.data = data;
+        window.myChart.options = options;
+        window.myChart.update();
+    } else {
+        // Create new chart
+        window.myChart = new Chart(ctx, {
+            type: 'line',
+            data: data,
+            options: options
+        });
+    }
+}
+
+//incomevexpense
+
+// JavaScript function to fetch income vs expense data and update the chart

@@ -173,7 +173,7 @@
 													<span>Current Balance</span>
 												</td>
 												<td>
-													<span class="text-success">{{wallet.getCurrencySymbol()}}{{wallet.totalbalance}}
+													<span class="text-success">{{wallet.getCurrencySymbol()}}{{'%.2f'|format(wallet.totalbalance)}}
 													</span>
 												</td>
 											</tr>
@@ -183,6 +183,7 @@
 												</td>
 												<td>
 													<select id="currencySelect" class="form-select" onchange="changeCurrency(this.value)">
+													<option value="USD">Currency</option>
 														<option value="USD">US-dollar</option>
 														<option value="EUR">Euro</option>
 														<option value="TND">Tunisian Dinar</option>

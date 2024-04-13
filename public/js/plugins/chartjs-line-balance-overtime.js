@@ -9,7 +9,7 @@
 
          datasets: [{
              label: "Youtube",
-             data: [28, 35, 36, 48, 46, 42, 60],
+             data: [28, 35, 36, 48, 46, 42, 0],
              backgroundColor: "rgba(255,117,136,0.12)",
              borderColor: "#FF4961",
              borderWidth: 3,
@@ -159,7 +159,7 @@
 
          datasets: [{
              label: "Youtube",
-             data: [28, 35, 36, 48, 46, 42, 60],
+             data: [28, 35, 36, 48, 46, 42, 40],
              backgroundColor: "rgba(255,117,136,0.12)",
              borderColor: "#FF4961",
              borderWidth: 3,
