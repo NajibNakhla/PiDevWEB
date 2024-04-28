@@ -41,56 +41,72 @@
 					{% endfor %}
 				</select>
 				{% include 'transaction/transaction_modal.html.twig' %}
-				
-				</div>
-				<div class="settings-menu">
-				
+
+			</div>
+			<div class="settings-menu">
+
 				<a href="#" style="margin-right: 10px;" data-bs-toggle="modal" data-bs-target="#transactionTypeModal">
-				<i class="fi fi-rr-square-plus"></i>
+					<i class="fi fi-rr-square-plus"></i>
 					Add Transaction
-					</a>
-				<a href="#" data-bs-toggle="modal" data-bs-target="#payeeModal"><i class="fi fi-br-settings"></i> 
-				Manage Payees</a>
-				<a href="#" >
-				<i class="fi fi-sr-file-csv"  id="exportButton"></i>
-					Export 
-					</a>
+				</a>
+				<a href="#" data-bs-toggle="modal" data-bs-target="#payeeModal">
+					<i class="fi fi-br-settings"></i>
+					Manage Payees</a>
+				<a href="#">
+					<i class="fi fi-sr-file-csv" id="exportButton"></i>
+					Export
+				</a>
+
+			</div>
+			<div style=" margin-bottom: 20px; margin-right: 10px;">
+				<div
+					class="search" style="margin-right: 20px;">
+					<!-- Adjust margin-right for spacing -->
+					<div class="input-group" style="width: 300px;">
+						<input type="text" class="form-control" id="transactionSearchInput" placeholder="Search transactions...">
+						<span class="input-group-text">
+							<i class="fi fi-br-search"></i>
+						</span>
+					</div>
 				</div>
-				{% include 'payee/payee_modal.html.twig' %}
-				<div class="row">
-					<div class="col-xl-12">
-						<div class="card">
-							<div class="card-header">
-								<h4 class="card-title">Transaction History</h4>
-								<div id="defaultAccountNamePlace">
-									Balance:
-									{{ defaultAccountName }}
-									<h4 class="text-success">{{ defaultAccountCurrency }} {{ defaultAccountBalance }}</h4>
-								</div>
+			</div>
+
+
+			{% include 'payee/payee_modal.html.twig' %}
+			<div class="row">
+				<div class="col-xl-12">
+					<div class="card">
+						<div class="card-header">
+							<h4 class="card-title">Transaction History</h4>
+							<div id="defaultAccountNamePlace">
+								Balance:
+								{{ defaultAccountName }}
+								<h4 class="text-success">{{ defaultAccountCurrency }}
+									{{ defaultAccountBalance }}</h4>
 							</div>
 						</div>
-						<div class="card-body">
+					</div>
+					<div class="card-body">
 						{% include 'transaction/transaction_delete_modal.html.twig' %}
-							<div class="transaction-table">
-								<div class="table-responsive">
-									<table class="table mb-0 table-responsive-sm" id="transactionTable">
-										<thead>
-											<tr>
-												<th>Category</th>
-												<th>Date</th>
-												<th>Type</th>
-												<th>Description</th>
-												<th>Amount</th>
-												<th>From Account</th>
-												<th>To Account</th>
-												<th>Payee</th>
-												<th></th>
+						<div class="transaction-table">
+							<div class="table-responsive">
+								<table class="table mb-0 table-responsive-sm" id="transactionTable">
+									<thead>
+										<tr>
+											<th>Category</th>
+											<th>Date</th>
+											<th>Type</th>
+											<th>Description</th>
+											<th>Amount</th>
+											<th>From Account</th>
+											<th>To Account</th>
+											<th>Payee</th>
+											<th></th>
 
-											</tr>
-										</thead>
-										<tbody></tbody>
-									</table>
-								</div>
+										</tr>
+									</thead>
+									<tbody></tbody>
+								</table>
 							</div>
 						</div>
 					</div>
@@ -98,4 +114,4 @@
 			</div>
 		</div>
 	</div>
-{% endblock %}
+</div>{% endblock %}

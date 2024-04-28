@@ -41,6 +41,21 @@ class AccountRepository extends ServiceEntityRepository
             ->getResult();
     }
 
+    public function findAccountsByWalletIdWithSearch($idWallet, $searchTerm)
+    {
+        return $this->createQueryBuilder('a')
+            ->andWhere('a.idwallet = :idWallet')
+            ->andWhere('LOWER(a.nameaccount) LIKE :searchTerm 
+                OR LOWER(a.typeaccount) LIKE :searchTerm 
+                OR LOWER(a.description) LIKE :searchTerm 
+                OR CONCAT(a.balance, \'\') LIKE :searchTerm ')
+            ->setParameter('idWallet', $idWallet)
+            ->setParameter('searchTerm', '%' . strtolower($searchTerm) . '%')
+            ->getQuery()
+            ->getResult();
+    }
+    
+
 
 
 //    /**

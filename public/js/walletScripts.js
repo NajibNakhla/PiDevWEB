@@ -104,9 +104,36 @@ function fetchTransactions() {
             // Call a function to update the transaction table with the fetched data
             updateTransactionTable2(data);
             updateDefaultAccountNamePlace(accountId);
+             // Get the search term from the input field
+             const searchTerm = document.getElementById('transactionSearchInput').value.trim();
+             // Pass both the fetched transactions and the search term to the filterTransactions function
+             filterTransactions(data, searchTerm);
         })
         .catch(error => console.error('Error:', error));
+
+        
 }
+// Function to filter transactions based on search input
+function filterTransactions(transactions, searchTerm) {
+    const filteredTransactions = transactions.filter(transaction => {
+        // Check if any attribute of the transaction matches the search term
+        return Object.values(transaction).some(value => {
+            if (typeof value === 'string') {
+                // For string attributes, check if the value exists and includes the search term
+                return value && value.toLowerCase().includes(searchTerm.toLowerCase());
+            } else if (typeof value === 'number') {
+                // For numeric attributes, convert to string and check for partial match
+                return value.toString().includes(searchTerm);
+            }
+            // For other types, ignore them in the search
+            return false;
+        });
+    });
+    updateTransactionTable2(filteredTransactions);
+}
+
+// Event listener for the search input field
+document.getElementById('transactionSearchInput').addEventListener('input', fetchTransactions);
 
 function updateDefaultAccountNamePlace(accountId) {
     // Make an AJAX request to fetch account details
@@ -169,6 +196,13 @@ function updateDefaultAccountNamePlace(accountId) {
 
 
 }
+
+//search transactions
+
+
+
+
+
 //csv
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -527,6 +561,9 @@ function updateExchangeRates() {
 
 
 function changeCurrency(selectedCurrency) {
+// Show progress indicator before fetch
+document.getElementById('progressIndicator').style.display = 'block';
+
     // Make an AJAX request to change the currency
     fetch(`/settings/change-currency/${selectedCurrency}`, { // Include selectedCurrency in the URL
         method: 'POST',
@@ -537,6 +574,8 @@ function changeCurrency(selectedCurrency) {
     })
     .then(response => response.json())
     .then(data => {
+            // Hide progress indicator after fetch
+            document.getElementById('progressIndicator').style.display = 'none';
         // Check if the currency change was successful
         if (data.message === 'Currency changed successfully') {
             // Reload the page or update the UI as needed
@@ -549,6 +588,8 @@ function changeCurrency(selectedCurrency) {
         }
     })
     .catch(error => {
+         // Hide progress indicator on error
+         document.getElementById('progressIndicator').style.display = 'none';
         console.error('Error changing currency:', error);
         // Handle errors or display a message to the user
     });

@@ -38,12 +38,27 @@
 				<a href="settings-bank.html">Add Bank</a>
 
 			</div>
+			<div style=" margin-bottom: 20px; margin-right: 10px;">
+				<div
+					class="search" style="margin-right: 20px;">
+					<!-- Adjust margin-right for spacing -->
+					<form action="{{ path('account_manager') }}" method="GET">
+                <div class="input-group" style="width: 300px;">
+                    <input type="text" class="form-control" name="search" placeholder="Search Accounts...">
+                    <button type="submit" class="btn btn-primary">
+                        <i class="fi fi-br-search"></i>
+                    </button>
+                </div>
+            </form>
+				</div>
+			</div>
+
 			<div class="card">
 				<div class="card-header">
 					<h4 class="card-title">Manage accounts</h4>
 					<div>
 						Wallet Balance :
-						<h4 class="text-success">{{ accounts[0].idwallet.getCurrencySymbol() }}{{ accounts[0].idwallet.totalbalance }}</h4>
+						<h4 class="text-success">{{ accounts[0].idwallet.getCurrencySymbol() }}{{  '%.2f'|format(accounts[0].idwallet.totalbalance) }}</h4>
 					</div>
 
 				</div>
@@ -61,7 +76,7 @@
 									<small>type :
 										{{ account.typeaccount }}</small>
 									<br>
-									<span class="text-success">{{ account.idwallet.getCurrencySymbol() }}{{ account.balance}}</span>
+									<span class="text-success">{{ account.idwallet.getCurrencySymbol() }}{{'%.2f'|format( account.balance)}}</span>
 								</div>
 							</div>
 							<div class="primary-number">

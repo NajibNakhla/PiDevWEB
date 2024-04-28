@@ -181,6 +181,7 @@
 												<td>
 													<span>Change Currency</span>
 												</td>
+												
 												<td>
 													<select id="currencySelect" class="form-select" onchange="changeCurrency(this.value)">
 													<option value="USD">Currency</option>
@@ -194,6 +195,12 @@
                                                 
 												
 											</tr>
+											<div id="progressIndicator" style="display: none;">
+    <!-- Loading spinner or progress bar HTML -->
+    <div class="spinner-border text-primary" role="status">
+        <span class="visually-hidden">Loading...</span>
+    </div>
+</div>
  
 										</tbody>
 										

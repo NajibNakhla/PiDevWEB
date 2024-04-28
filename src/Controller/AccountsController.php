@@ -112,7 +112,7 @@ class AccountsController extends AbstractController
 
 
     #[Route('/accounts/manage', name: 'account_manager')]
-    public function manage(UserRepository $userRepository,AccountRepository $accountRepository, WalletRepository $walletRepository): Response
+    public function manage(Request $request,UserRepository $userRepository,AccountRepository $accountRepository, WalletRepository $walletRepository): Response
     {
          // Fetch the logged-in user
          $userid=2;
@@ -120,16 +120,28 @@ class AccountsController extends AbstractController
           
           // Fetch the idWallet of the logged-in user
           $idWallet = $walletRepository->getIdWalletByUserID($userid);
+          $wallet = $walletRepository->getWalletByUserId($userid);
+
   
           
           $defaultBankName = '';
   
           // Fetch the accounts associated with the retrieved idWallet
           $accounts = $accountRepository->findAccountsByWalletId($idWallet);
+            // If search query is submitted
+         $searchTerm = $request->query->get('search');
+         if ($searchTerm) {
+            // If there's a search term, use the modified query to filter accounts
+            $accounts = $accountRepository->findAccountsByWalletIdWithSearch($wallet, $searchTerm);
+        } else {
+            // If there's no search term, fetch all accounts
+            $accounts = $accountRepository->findAccountsByWalletId($idWallet);
+        }
         
         return $this->render('accounts/account-manager.html.twig', [
             'accounts' => $accounts,
-            'wallet' => $idWallet
+            'wallet' => $idWallet,
+            'searchTerm' => $searchTerm, // Pass the search term to the Twig template
         ]);
     }
 
